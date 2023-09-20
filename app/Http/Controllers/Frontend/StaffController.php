@@ -461,4 +461,7 @@ class StaffController extends Controller
         return back();
     }
 
+    public function rules() {
+        return view('frontend/company/rules');
+    }
 }

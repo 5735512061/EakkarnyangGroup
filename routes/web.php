@@ -135,6 +135,9 @@ Route::group(['prefix' => 'staff'], function(){
 
     // การเข้าเว็บ E-learning
     Route::post('/e-learning','Frontend\\StaffController@Elearning');
+
+    // กฎระเบียบของบริษัท
+    Route::get('/rules','Frontend\\StaffController@rules');
 });
 
 Auth::routes();

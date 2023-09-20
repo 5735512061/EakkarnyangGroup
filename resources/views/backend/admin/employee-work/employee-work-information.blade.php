@@ -107,6 +107,7 @@
                                     <th>เบี้ยขยัน</th>
                                     <th>ค่าประกันสังคม</th>
                                     <th>หักอื่นๆ</th>
+                                    <th>ค่าความสามารถ</th>
                                     <th>หมายเหตุ</th>
                                     <th>ยอดคงเหลือ</th>
                                     <th></th>
@@ -166,6 +167,7 @@
                                         @endif
                                         <td>- {{ $value->insurance }}</td>
                                         <td>- {{ $value->deduct }}</td>
+                                        <td>+ {{ $value->skill }}</td>
 
 
                                         {{-- มีค่าเงินเดือน --}}
@@ -178,16 +180,23 @@
                                                 ->value('salary');
                                             $salary_equal = str_replace(',', '', $salary_equal);
                                             $salary_equal = (int) $salary_equal;
+                                            
                                             $charge = str_replace(',', '', $value->charge);
                                             $charge = (int) $charge;
+                                            
                                             $insurance = str_replace(',', '', $value->insurance);
                                             $insurance = (int) $insurance;
+                                            
                                             $deduct = str_replace(',', '', $value->deduct);
                                             $deduct = (int) $deduct;
+                                            
+                                            $skill = str_replace(',', '', $value->skill);
+                                            $skill = (int) $skill;
+                                            
                                             if ($value->late == 0 && $value->absence == 0) {
-                                                $salary_equal = $salary_equal + 1000 + $charge - $insurance - $deduct;
+                                                $salary_equal = $salary_equal + 1000 + $charge + $skill - $insurance - $deduct;
                                             } elseif ($value->late != 0 || $value->absence != 0) {
-                                                $salary_equal = $salary_equal + $charge - $insurance - $deduct;
+                                                $salary_equal = $salary_equal + $charge + $skill - $insurance - $deduct;
                                             }
                                             $salary_equal = number_format($salary_equal);
                                         @endphp
@@ -200,18 +209,26 @@
                                                 ->where('month_', '<', $value->month_)
                                                 ->orderBy('id', 'desc')
                                                 ->value('salary');
+
                                             $salary = str_replace(',', '', $salary);
                                             $salary = (int) $salary;
+
                                             $charge = str_replace(',', '', $value->charge);
                                             $charge = (int) $charge;
+
                                             $insurance = str_replace(',', '', $value->insurance);
                                             $insurance = (int) $insurance;
+
                                             $deduct = str_replace(',', '', $value->deduct);
                                             $deduct = (int) $deduct;
+
+                                            $skill = str_replace(',', '', $value->skill);
+                                            $skill = (int) $skill;
+
                                             if ($value->late == 0 && $value->absence == 0) {
-                                                $salary = $salary + 1000 + $charge - $insurance - $deduct;
+                                                $salary = $salary + 1000 + $charge + $skill - $insurance - $deduct;
                                             } elseif ($value->late != 0 || $value->absence != 0) {
-                                                $salary = $salary + $charge - $insurance - $deduct;
+                                                $salary = $salary + $charge + $skill - $insurance - $deduct;
                                             }
                                             $salary = number_format($salary);
                                         @endphp

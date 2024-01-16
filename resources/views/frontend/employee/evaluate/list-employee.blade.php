@@ -29,8 +29,8 @@
                   @php
 
                     //วันสุดท้ายของไตรมาส 
-                    $last_of_quarter = now();
-                    $last_of_quarter->lastOfQuarter();
+                    // $last_of_quarter = now();
+                    // $last_of_quarter->lastOfQuarter();
 
                     $date = App\Model\EmployeeRate::where('employee_id',$value->id)->orderBy('created_at','desc')->first();
 

@@ -9,7 +9,7 @@ class Evaluation extends Model
 	protected $table = 'evaluations';
 
 	protected $fillable = [
-    	'branch_id', 'set', 'number', 'list', 'score', 'status'
+    	'set', 'number', 'list', 'score', 'status'
     ];
 
     protected $primaryKey = 'id';

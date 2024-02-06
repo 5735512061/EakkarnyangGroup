@@ -39,7 +39,6 @@
                     </select>
                   </div>
                   <div class="mt-2">
-                    <input type="hidden" name="branch_id" value="{{$branch_id}}">
                     <button type="submit" class="btn btn-success me-2" style="font-family: 'Sarabun';">บันทึกข้อมูล</button>
                     <button type="reset" class="btn btn-outline-secondary" style="font-family: 'Sarabun';">ยกเลิก</button>
                   </div>

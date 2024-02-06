@@ -776,10 +776,8 @@ class AdminController extends Controller
     }
 
     public function providentFundInformation(Request $request, $branch_id, $id) {
-        $NUM_PAGE = 15;
-
         $staff = Employee::findOrFail($id);
-        $funds = Fund::where('employee_id',$staff->id)->orderBy('id','asc')->paginate($NUM_PAGE);  
+        $funds = Fund::where('employee_id',$staff->id)->orderBy('id','asc')->get();  
 
             // คำนวณจำนวนปีที่ทำงาน เพื่อนำไปคำนวณเปอร์เซ็นต์
                 $startdate = Employee::where('id',$staff->id)->value('startdate');

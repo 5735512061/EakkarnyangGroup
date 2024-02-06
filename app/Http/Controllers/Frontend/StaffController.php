@@ -229,45 +229,22 @@ class StaffController extends Controller
         $staff = Auth::guard('staff')->user();
         $funds = Fund::where('employee_id',$staff->id)->orderBy('id','asc')->get();  
 
-        // $year = ปีปัจจุบัน, $absence = จำนวนวันที่หยุด, $late = จำนวนวันที่สาย, $lateBalance = วันที่สายคงเหลือ, $absenceTotal = วันหยุดรวมทั้งหมด
-        // $dayoff = วันหยุดประจำปี, $absenceBalance = วันหยุดคงเหลือ
+        // คำนวณจำนวนปีที่ทำงาน เพื่อนำไปคำนวณเปอร์เซ็นต์
+        $startdate = Employee::where('id',$staff->id)->value('startdate');
+        $startdate = strtr($startdate,'/','-');
+        $startdate_d = date('d',strtotime($startdate));
+        $startdate_m = date('m',strtotime($startdate));
+        $startdate_y = date('Y',strtotime($startdate));
 
-        $year = EmployeeWork::where('employee_id',$staff->id)->orderBy('id','desc')->value('year');
+        $date = Carbon::parse($startdate_y."-".$startdate_m."-".$startdate_d);
+        $now = Carbon::now();
+        $diff = $date->diffInDays($now);    
+        $year_work = intval($diff/365);
+        // จบ
 
-        $absence = (int)EmployeeWork::where('employee_id',$staff->id)->where('year',$year)->sum('absence'); // หยุด
-        $late = (int)EmployeeWork::where('employee_id',$staff->id)->where('year',$year)->sum('late'); // สาย
-        $dayoff = Dayoff::where('employee_id',$staff->id)->where('year',$year)->value('dayoff'); // วันหยุดประจำปี
-
-            if($late > 3) { // ถ้าหยุดมากกว่า 3 วัน
-                $lateBalance = $late%3; // สายคงเหลือ
-                $absenceTotal = $absence + (($late-$lateBalance)/3); // วันหยุดรวมทั้งหมด
-                $absenceBalance = $dayoff - $absenceTotal; // วันหยุดคงเหลือ
-            } else if($late == 3) { // ถ้าสาย 3 วัน
-                $lateBalance = $late%3; // สายคงเหลือ
-                $absenceTotal = $absence + (($late-$lateBalance)/3); // วันหยุดรวมทั้งหมด
-                $absenceBalance = $dayoff - $absenceTotal; // วันหยุดคงเหลือ
-            } else { // หยุดน้อยกว่า 3 วัน
-                $lateBalance = $late; // สาย
-                $absenceTotal = $absence; // หยุด
-                $absenceBalance = $dayoff - $absenceTotal; // วันหยุดคงเหลือ
-            }
-        
-        $salary = Salary::where('employee_id',$staff->id)->where('year',$year)->value('salary');
-
-            if($absenceBalance >= 0) {
-                $bonus = $salary;
-            } else {
-                $bonus = 0;
-            }
-
-        return view('frontend/employee/provident-fund-information')->with('staff',$staff)
-                                                                   ->with('funds',$funds)
-                                                                   ->with('absence',$absence)
-                                                                   ->with('late',$late)
-                                                                   ->with('lateBalance',$lateBalance)
-                                                                   ->with('absenceTotal',$absenceTotal)
-                                                                   ->with('absenceBalance',$absenceBalance)
-                                                                   ->with('bonus',$bonus);
+        return view('frontend/employee/provident-fund-information')->with('funds',$funds)
+                                                                   ->with('staff',$staff)
+                                                                   ->with('year_work',$year_work);
     }
 
     public function leaveWork(Request $request) {

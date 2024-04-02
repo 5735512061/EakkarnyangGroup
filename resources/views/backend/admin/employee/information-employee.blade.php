@@ -16,6 +16,7 @@
                         </div>
                         @php
                             $position = DB::table('positions')->where('id',$employee->position_id)->value('position');
+                            $description = DB::table('positions')->where('id',$employee->position_id)->value('description');
                             $branch = DB::table('branch_groups')->where('id',$employee->branch_id)->value('branch');
                         @endphp
                         <h4 class="mt-5">{{$employee->name}} {{$employee->surname}} ( {{$employee->nickname}} ) ตำแหน่งงาน : {{$position}}</h4>
@@ -83,6 +84,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-12">
+          {!! $description !!}
         </div>
     </div>
     <div class="row">

@@ -23,6 +23,9 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('/logout', 'AuthAdmin\LoginController@logout')->name('admin.logout'); //ออกจากระบบ
 
     Route::get('/dashboard/{id}','Backend\\AdminController@dashboard'); //หน้าหลัก Dashboard
+    Route::get('/company-regulations','Backend\\AdminController@companyRegulations'); //กฎระเบียบบริษัท ฯ
+    Route::post('/create-company-regulations','Backend\\AdminController@companyRegulationsPost'); //กฎระเบียบบริษัท ฯ
+    Route::get('/preview-file-company-regulations/{id}','Backend\\AdminController@previewFileCompanyRegulatios'); //preview file PDF
 
     // จัดการข้อมูลพนักงาน
     Route::get('/form-create-employee/{id}','Backend\\AdminController@formCreateEmployee'); //ฟอร์มเพิ่มพนักงานในระบบ

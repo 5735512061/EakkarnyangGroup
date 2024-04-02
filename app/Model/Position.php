@@ -9,7 +9,7 @@ class Position extends Model
 	protected $table = 'positions';
 
 	protected $fillable = [
-    	'branch_group_id', 'position', 'status',
+    	'branch_group_id', 'position', 'status', 'description'
     ];
 
     protected $primaryKey = 'id';

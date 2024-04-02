@@ -22,6 +22,7 @@ use App\Model\Leave;
 use App\Model\LeaveApproval;
 use App\Model\Warning;
 use App\Model\ElearningStatistic;
+use App\Model\CompanyRegulations;
 
 use App\Admin;
 use App\Employee;
@@ -997,6 +998,43 @@ class AdminController extends Controller
                                                               ->with('page',$page)
                                                               ->with('warnings',$warnings)
                                                               ->with('branch_id',$branch_id);
+    }
+
+    public function companyRegulations(Request $request) {
+        $NUM_PAGE = 20;
+        $file_regulations = CompanyRegulations::orderBy('id','asc')->paginate($NUM_PAGE);
+        $page = $request->input('page');
+        $page = ($page != null)?$page:1;
+        return view('backend/admin/company-regulations')->with('NUM_PAGE',$NUM_PAGE)
+                                                        ->with('page',$page)
+                                                        ->with('file_regulations',$file_regulations);
+    }
+
+    public function companyRegulationsPost(Request $request) {
+        $regulation = $request->all();
+        $regulation = CompanyRegulations::create($regulation);
+        if($request->hasFile('file_company_regulations')){
+            $file_regulation = $request->file('file_company_regulations');
+            $filename = md5(($file_regulation->getClientOriginalName(). time()) . time()) . "_o." . $file_regulation->getClientOriginalExtension();
+            $file_regulation->move('file_upload/file_company_regulations/', $filename);
+            $path = 'file_upload/file_company_regulations/'.$filename;
+            $regulation->file_company_regulations = $filename;
+            $regulation->save();
+        }
+        return back();
+    }
+
+    public function previewFileCompanyRegulatios($id) {
+        $pdf = CompanyRegulations::select('file_company_regulations')->where('id', $id)->value('file_company_regulations');
+        
+        // $filename = "/public/file_upload/file_company_regulations/".$pdf;
+        $filename = "../file_upload/file_company_regulations/".$pdf; //in server
+        $path = base_path($filename);
+        $contentType = mime_content_type($path);
+        return Response::make(file_get_contents($path), 200, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => 'inline; filename="'.$filename.'"'
+        ]);
     }
 
     // Validate

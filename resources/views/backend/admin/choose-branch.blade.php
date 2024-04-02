@@ -36,6 +36,21 @@
         </a>
       </div>
       @endif
+      <div class="col-md-3 col-12 mb-4">
+        <a href="{{url('/admin/company-regulations')}}">
+          <div class="card">
+            <div class="card-body" style="padding: 1.5rem 1.5rem 0 1.5rem !important;">
+                <div class="่justify-content-between flex-sm-row flex-column gap-3">
+                  <div class="flex-sm-column flex-row align-items-start justify-content-between">
+                    <div class="card-title">
+                      <center><h4>กฎระเบียบบริษัท ฯ</h4></center>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
     <h4 class="fw-bold py-3 mb-4">เลือกสาขาในเครือ EAKKARNYANG GROUP จัดการข้อมูลพนักงาน</h4>
       <div class="row">

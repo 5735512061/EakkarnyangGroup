@@ -101,13 +101,21 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('/edit-form-manager-evaluate','Backend\\AdminController@editFormManagerEvaluate');
     Route::get('/list-manager-evaluate/{branch_id}','Backend\\AdminController@listManagerEvaluate');
 
-
     // เกี่ยวกับข้อมูลข่าวสาร / ใบเตือน
     Route::get('/create-news','Backend\\AdminController@createNews');
     Route::get('/show-news','Backend\\AdminController@showNews');
     Route::get('/create-warning/{branch_id}','Backend\\AdminController@createWarning');
     Route::post('/create-warning','Backend\\AdminController@createWarningPost');
     Route::get('/show-warning/{branch_id}','Backend\\AdminController@showWarning');
+
+    // checklist sop
+    Route::get('/form-checklist-sop/{branch_id}','Backend\\AdminController@formChecklistSOP');
+    Route::post('/create-form-checklist-sop','Backend\\AdminController@createFormChecklistSOP');
+    Route::post('/edit-form-checklist-sop','Backend\\AdminController@editFormChecklistSOP');
+    Route::get('/title-sop/{branch_id}','Backend\\AdminController@titleSOP');
+    Route::post('/create-title-sop','Backend\\AdminController@createTitleSOP');
+    Route::post('/edit-title-sop','Backend\\AdminController@editTitleSOP');
+    Route::get('/checklist-sop/{branch_id}','Backend\\AdminController@ChecklistSOP');
 
 });
 
@@ -143,6 +151,14 @@ Route::group(['prefix' => 'staff'], function(){
 
     // กฎระเบียบของบริษัท
     Route::get('/rules','Frontend\\StaffController@rules');
+    Route::get('/preview-file-company-regulations','Frontend\\StaffController@previewFileCompanyRegulatios'); //preview file PDF
+
+    // SOP
+    Route::get('/check-list-sop','Frontend\\StaffController@checkListSOP');
+    Route::get('/check-list-sop-technician','Frontend\\StaffController@checkListSOPTechnician');
+    Route::post('/from-checklist-sop','Frontend\\StaffController@formChecklistSOP');
+    Route::post('/from-checklist-sop-technician','Frontend\\StaffController@formChecklistSOPTechnician');
+
 });
 
 Auth::routes();

@@ -23,6 +23,9 @@ use App\Model\LeaveApproval;
 use App\Model\Warning;
 use App\Model\ElearningStatistic;
 use App\Model\CompanyRegulations;
+use App\Model\ListSop;
+use App\Model\TitleSop;
+use App\Model\CheckListSop;
 
 use App\Admin;
 use App\Employee;
@@ -152,6 +155,7 @@ class AdminController extends Controller
             $employee['zipcode'] = $request->get('zipcode');
             $employee['employee_name'] = $request->get('employee_name');
             $employee['status'] = $request->get('status');
+            $employee['checklist'] = $request->get('checklist');
             $employee->update();
             $employee->update($request->except('password'));
             if($request->hasFile('image')) {
@@ -183,6 +187,7 @@ class AdminController extends Controller
             $employee['password_name'] = $request->get('password_name');
             $employee['password'] = bcrypt($request->get('password_name'));
             $employee['status'] = $request->get('status');
+            $employee['checklist'] = $request->get('checklist');
             $employee->update();
             if($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -1025,7 +1030,7 @@ class AdminController extends Controller
     }
 
     public function previewFileCompanyRegulatios($id) {
-        $pdf = CompanyRegulations::select('file_company_regulations')->where('id', $id)->value('file_company_regulations');
+        $pdf = CompanyRegulations::select('file_company_regulations')->where('id', $id)->orderBy('id','desc')->value('file_company_regulations');
         
         // $filename = "/public/file_upload/file_company_regulations/".$pdf;
         $filename = "../file_upload/file_company_regulations/".$pdf; //in server
@@ -1035,6 +1040,70 @@ class AdminController extends Controller
             'Content-Type' => $contentType,
             'Content-Disposition' => 'inline; filename="'.$filename.'"'
         ]);
+    }
+
+    // checklist sop
+    public function formChecklistSOP(Request $request, $branch_id) { 
+        $NUM_PAGE = 20;
+        $checklists = ListSop::orderBy('set','desc')->get();
+        $page = $request->input('page');
+        $page = ($page != null)?$page:1;
+        return view('backend/admin/checklist/create-form-checklist-sop')->with('NUM_PAGE',$NUM_PAGE)
+                                                                        ->with('page',$page)
+                                                                        ->with('branch_id',$branch_id)
+                                                                        ->with('checklists',$checklists);
+    }
+
+    public function createFormChecklistSOP(Request $request) {
+        $checklist = $request->all();
+        $checklist = ListSop::create($checklist);
+        $request->session()->flash('alert-success', 'เพิ่มหัวข้อ SOP สำเร็จ');
+        return back();
+    }
+
+    public function editFormChecklistSOP(Request $request) {
+        $id = $request->get('id');
+        $checklist = ListSop::findOrFail($id);
+        $checklist->update($request->all());
+        $request->session()->flash('alert-success', 'แก้ไขข้อมูลสำเร็จ');
+        return redirect()->action('Backend\\AdminController@formChecklistSOP',['branch_id'=>session('branch_id')]); 
+    }
+
+    public function titleSOP(Request $request, $branch_id) {
+        $NUM_PAGE = 20;
+        $titles = TitleSop::get();
+        $page = $request->input('page');
+        $page = ($page != null)?$page:1;
+        return view('backend/admin/checklist/title-sop')->with('NUM_PAGE',$NUM_PAGE)
+                                                        ->with('page',$page)
+                                                        ->with('branch_id',$branch_id)
+                                                        ->with('titles',$titles);
+    }  
+
+    public function createTitleSOP(Request $request) {
+        $title = $request->all();
+        $title = TitleSop::create($title);
+        $request->session()->flash('alert-success', 'เพิ่มหัวข้อหลักสำเร็จ');
+        return back();
+    }
+
+    public function editTitleSOP(Request $request) {
+        $id = $request->get('id');
+        $title = TitleSop::findOrFail($id);
+        $title->update($request->all());
+        $request->session()->flash('alert-success', 'แก้ไขข้อมูลสำเร็จ');
+        return redirect()->action('Backend\\AdminController@titleSOP',['branch_id'=>session('branch_id')]); 
+    }
+
+    public function checklistSOP(Request $request, $branch_id) { 
+        $NUM_PAGE = 20;
+        $checklists = CheckListSop::where('branch_id',$branch_id)->orderBy('created_at','desc')->paginate($NUM_PAGE);
+        $page = $request->input('page');
+        $page = ($page != null)?$page:1;
+        return view('backend/admin/checklist/checklist-sop')->with('NUM_PAGE',$NUM_PAGE)
+                                                            ->with('page',$page)
+                                                            ->with('branch_id',$branch_id)
+                                                            ->with('checklists',$checklists);
     }
 
     // Validate

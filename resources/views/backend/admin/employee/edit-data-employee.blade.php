@@ -170,10 +170,17 @@
                     <option value="พ้นสภาพพนักงาน">พ้นสภาพพนักงาน</option>
                   </select>
                 </div>
+                <div class="mb-3 col-md-6">
+                  <label class="form-label" for="country">ตัวแทนทำ Checklist</label>
+                  <select name="checklist" class="select2 form-select">      
+                    <option value="{{$employee->checklist}}">{{$employee->checklist}}</option>
+                    <option value="เปิด">เปิด</option>
+                    <option value="ปิด">ปิด</option>
+                  </select>
+                </div>
                 <div class="mt-2">
                   <input type="hidden" name="id" value="{{$employee->id}}">
                   <button type="submit" class="btn btn-success me-2" style="font-family: 'Sarabun';">บันทึกข้อมูล</button>
-                  d
                 </div>
               </div>
             </div>

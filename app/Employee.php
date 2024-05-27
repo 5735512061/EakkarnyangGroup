@@ -15,7 +15,7 @@ class Employee extends Authenticatable
     protected $guard = 'staff';
 
     protected $fillable = [
-    	'idcard', 'name', 'surname', 'nickname', 'bday', 'tel', 'branch_id', 'position_id', 'startdate', 'address', 'district', 'amphoe', 'province', 'zipcode', 'employee_name', 'password', 'password_name', 'image', 'status'
+    	'idcard', 'name', 'surname', 'nickname', 'bday', 'tel', 'branch_id', 'position_id', 'startdate', 'address', 'district', 'amphoe', 'province', 'zipcode', 'employee_name', 'password', 'password_name', 'image', 'status', 'checklist'
     ];
 
     protected $primaryKey = 'id';

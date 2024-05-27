@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 use Auth;
 use App\Model\EmployeeWork;
@@ -20,6 +21,11 @@ use App\Model\EvaluationManager;
 use App\Model\ManagerRate;
 use Carbon\Carbon;
 use App\Model\ElearningStatistic;
+use App\Model\CompanyRegulations;
+use App\Model\ListSop;
+use App\Model\CheckListSop;
+
+use Response;
 
 class StaffController extends Controller
 {
@@ -443,4 +449,97 @@ class StaffController extends Controller
     public function rules() {
         return view('frontend/company/rules');
     }
+
+    public function previewFileCompanyRegulatios() {
+        $pdf = CompanyRegulations::select('file_company_regulations')->orderBy('id','desc')->value('file_company_regulations');
+        
+        // $filename = "/public/file_upload/file_company_regulations/".$pdf;
+        $filename = "../file_upload/file_company_regulations/".$pdf; //in server
+        $path = base_path($filename);
+        $contentType = mime_content_type($path);
+        return Response::make(file_get_contents($path), 200, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => 'inline; filename="'.$filename.'"'
+        ]);
+    }
+
+    public function checkListSOP() {
+        $titles = ListSop::where('status',"เปิด")->groupBy('title_id')->get();
+        return view('frontend/employee/sop/check-list-sop')->with('titles',$titles);
+    }
+
+    public function formChecklistSOP(Request $request) {
+        // $list = $request->all();
+
+        // foreach($list['checklist'] as $key => $value) {
+        //     $employee_id = $request->get('employee_id');
+        //     $date = $request->get('date');
+        //     $list_id = $key;
+        //     $checklist = $value;
+
+        //     $checklist_data = new CheckListSop;
+        //     $checklist_data->employee_id = $employee_id;
+        //     $checklist_data->list_id = $list_id;
+        //     $checklist_data->checklist = $checklist;
+        //     $checklist_data->date = $date;
+        //     $checklist_data->save();
+        // }
+        // return redirect()->action('Frontend\\StaffController@checkListSOP');
+
+        $validator = Validator::make($request->all(), $this->rules_formChecklistSOP(), $this->messages_formChecklistSOP());
+        if($validator->passes()) {
+            $checklist_data = new CheckListSop;
+            $checklist_data->employee_id = $request->get('employee_id');
+            $checklist_data->branch_id = $request->get('branch_id');
+            $checklist_data->date = $request->get('date');
+            $checklist_data->status = "check";
+            $checklist_data->set = $request->get('set');
+            $checklist_data->period = $request->get('period');
+            $checklist_data->save();
+            $request->session()->flash('alert-success', 'ทำรายการ Checklist สำเร็จ');
+            return redirect()->action('Frontend\\StaffController@checkListSOP');
+        }
+        else {
+            $request->session()->flash('alert-danger', 'ทำรายการ Checklist ไม่สำเร็จ กรุณาเช็คให้ครบทุกข้อ');
+            return back()->withErrors($validator)->withInput();
+        }
+    }
+
+    public function checkListSOPTechnician() {
+        $titles = ListSop::where('status',"เปิด")->groupBy('title_id')->get();
+        return view('frontend/employee/sop/check-list-sop-technician')->with('titles',$titles);
+    }
+
+    public function formChecklistSOPTechnician(Request $request) {
+        $validator = Validator::make($request->all(), $this->rules_formChecklistSOP(), $this->messages_formChecklistSOP());
+        if($validator->passes()) {
+            $checklist_data = new CheckListSop;
+            $checklist_data->employee_id = $request->get('employee_id');
+            $checklist_data->branch_id = $request->get('branch_id');
+            $checklist_data->date = $request->get('date');
+            $checklist_data->status = "check";
+            $checklist_data->set = $request->get('set');
+            $checklist_data->period = $request->get('period');
+            $checklist_data->save();
+            $request->session()->flash('alert-success', 'ทำรายการ Checklist สำเร็จ');
+            return redirect()->action('Frontend\\StaffController@checkListSOPTechnician');
+        }
+        else {
+            $request->session()->flash('alert-danger', 'ทำรายการ Checklist ไม่สำเร็จ กรุณาเช็คให้ครบทุกข้อ');
+            return back()->withErrors($validator)->withInput();
+        }
+    }
+
+    public function rules_formChecklistSOP() {
+        return [
+            'checklist' =>'required'
+        ];
+    }
+
+    public function messages_formChecklistSOP() {
+        return [
+            'checklist.required' => '',
+        ];
+    }
+
 }

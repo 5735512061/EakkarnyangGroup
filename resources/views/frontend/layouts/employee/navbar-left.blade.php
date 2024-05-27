@@ -55,7 +55,7 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{ url('/staff/rules') }}" class="menu-link">
+            <a href="{{ url('/staff/preview-file-company-regulations') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-book-bookmark"></i>
                 <div data-i18n="Account">กฎระเบียบของบริษัท</div>
             </a>
@@ -80,6 +80,7 @@
             $branch = DB::table('branch_groups')
                 ->where('id', auth::guard('staff')->user()->branch_id)
                 ->value('branch');
+            $checklist = auth::guard('staff')->user()->checklist;
         @endphp
         @if ($position == 'MANAGER')
             <li class="menu-header small text-uppercase"><span class="menu-header-text">การประเมินผล</span></li>
@@ -97,6 +98,55 @@
                 <div data-i18n="Account">E-learning</div>
             </a>
         </li>
+        @if ($position == 'MANAGER')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">SOP</span></li>
+            <li class="menu-item">
+                <a href="{{ url('/staff/check-list-sop') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                    <div data-i18n="Account">CHECKLIST SOP</div>
+                </a>
+            </li>
+        @elseif ($position == 'Service Advisor' && $checklist == 'เปิด')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">SOP</span></li>
+            <li class="menu-item">
+                <a href="{{ url('/staff/check-list-sop') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                    <div data-i18n="Account">CHECKLIST SOP</div>
+                </a>
+            </li>
+        @elseif($position == 'Head Technician')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">SOP</span></li>
+            <li class="menu-item">
+                <a href="{{ url('/staff/check-list-sop-technician') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                    <div data-i18n="Account">CHECKLIST SOP</div>
+                </a>
+            </li>
+        @elseif($position == 'Technician' && $checklist == 'เปิด')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">SOP</span></li>
+            <li class="menu-item">
+                <a href="{{ url('/staff/check-list-sop-technician') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                    <div data-i18n="Account">CHECKLIST SOP</div>
+                </a>
+            </li>
+        @elseif($position == 'Technician Level 1' && $checklist == 'เปิด')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">SOP</span></li>
+            <li class="menu-item">
+                <a href="{{ url('/staff/check-list-sop-technician') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                    <div data-i18n="Account">CHECKLIST SOP</div>
+                </a>
+            </li>
+        @elseif($position == 'Technician Level 2' && $checklist == 'เปิด')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">SOP</span></li>
+            <li class="menu-item">
+                <a href="{{ url('/staff/check-list-sop-technician') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                    <div data-i18n="Account">CHECKLIST SOP</div>
+                </a>
+            </li>
+        @endif
         <li class="menu-header small text-uppercase"><span class="menu-header-text">ข้อมูลบัญชี</span></li>
         <li class="menu-item">
             <a href="{{ url('/staff/change-password') }}" class="menu-link">

@@ -7,10 +7,10 @@
 </style>
 @section('content')
     @php
-        $date = Carbon\Carbon::now()->format('d/m/Y h:i a');
-        $time = Carbon\Carbon::now()->format('h:i a');
+        $date = Carbon\Carbon::now()->format('d/m/Y H:i');
+        $time = Carbon\Carbon::now()->format('H:i');
     @endphp
-    @if ($time > '08:00 am' && $time < '08:45 am')
+    @if ($time > "08:00" && $time < "08:45")
         <div class="container-xxl flex-grow-1 container-p-y">
             @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                 @if (Session::has('alert-' . $msg))
@@ -70,7 +70,7 @@
                 </form>
             </div>
         </div>
-    @elseif($time > '6:30 pm' && $time < '7:30 pm')
+    @elseif($time > "18:30" && $time < "19:30")
         <div class="container-xxl flex-grow-1 container-p-y">
             @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                 @if (Session::has('alert-' . $msg))

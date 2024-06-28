@@ -116,6 +116,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('/create-title-sop','Backend\\AdminController@createTitleSOP');
     Route::post('/edit-title-sop','Backend\\AdminController@editTitleSOP');
     Route::get('/checklist-sop/{branch_id}','Backend\\AdminController@ChecklistSOP');
+    Route::get('/table-list-sop/{branch_id}','Backend\\AdminController@tableListSOP');
 
 });
 

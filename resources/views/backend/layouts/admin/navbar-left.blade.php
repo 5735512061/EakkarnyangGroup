@@ -195,6 +195,11 @@
               <div>ผลการตรวจเช็ค SOP</div>
             </a>
           </li>
+          <li class="menu-item">
+            <a href="{{url('/admin/table-list-sop')}}/{{$branch_id}}" class="menu-link">
+              <div>ตารางตรวจเช็ค SOP</div>
+            </a>
+          </li>
         </ul>
       </li>
       <li class="menu-header small text-uppercase"><span class="menu-header-text">เกี่ยวกับข้อมูลข่าวสาร / ใบเตือน</span></li>

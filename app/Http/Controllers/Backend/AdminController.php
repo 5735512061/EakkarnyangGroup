@@ -1106,6 +1106,11 @@ class AdminController extends Controller
                                                             ->with('checklists',$checklists);
     }
 
+    public function tableListSOP() {
+        $titles = ListSop::where('status',"เปิด")->groupBy('title_id')->get();
+        return view('backend/admin/checklist/table-list-sop')->with('titles',$titles);
+    }
+
     // Validate
     public function rules_createBranchGroup() {
         return [

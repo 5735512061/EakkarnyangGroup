@@ -115,6 +115,7 @@
                 @endphp
             @endforeach
         @php
+        
             if($date == "01") $date = "มกราคม"; if($date == "07") $date = "กรกฎาคม";
             if($date == "02") $date = "กุมภาพันธ์"; if($date == "08") $date = "สิงหาคม";
             if($date == "03") $date = "มีนาคม"; if($date == "09") $date = "กันยายน";

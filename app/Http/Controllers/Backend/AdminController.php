@@ -840,7 +840,7 @@ class AdminController extends Controller
                              ->where('branch_id',$branch_id)
                              ->where('positions.position','!=','MANAGER')
                              ->where('positions.position','!=','แม่บ้าน')
-                             ->where('employees.status','เปิด')
+                             ->where('employees.status','เปิด')  
                              ->orderBy('position_id','asc')
                              ->paginate($NUM_PAGE);
                              

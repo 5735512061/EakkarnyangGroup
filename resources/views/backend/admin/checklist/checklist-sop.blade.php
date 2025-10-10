@@ -2,6 +2,27 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="card mb-4">
+            <div class="card-body" style="text-align: center;">
+                <h3>ผลการประเมินพนักงาน</h3>
+                <hr class="my-0" />
+                <div class="accordion">
+                    <div class="row">
+                        @foreach ($years as $year => $value)
+                            <div class="col-md-3 mt-3">
+                                <a href="{{ url('/admin/evaluate-detail') }}/{{ $id }}/{{ $value->year }}"
+                                    class="btn btn-success">ผลการตรวจเช็ค SOP ปี {{ $value->year }}</a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{--  --}}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">SOP /</span> ผลการตรวจเช็ค SOP</h4>
         {{ $checklists->links() }}
         <div class="row">

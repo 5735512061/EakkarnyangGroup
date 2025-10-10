@@ -139,11 +139,13 @@ Route::group(['prefix' => 'staff'], function(){
     Route::get('/benefit','Frontend\\StaffController@benefit');
     Route::get('/use-benefit/{id}','Frontend\\StaffController@useBenefit');
 
-    // แบบประเมิน
+    // แบบประเมินพนักงาน
     Route::get('/list-employee-evaluate','Frontend\\StaffController@listEmployeeEvaluate');
     Route::get('/from-employee-evaluate/{id}','Frontend\\StaffController@formEmployeeEvaluate');
     Route::post('/from-employee-evaluate','Frontend\\StaffController@formEmployeeEvaluatePost');
 
+    // แบบประเมินผู้จัดการ
+    // Route::get('/list-manager-evaluate','Frontend\\StaffController@listManagerEvaluate');
     Route::get('/form-manager-evaluate','Frontend\\StaffController@formManagerEvaluate');
     Route::post('/from-manager-evaluate','Frontend\\StaffController@formManagerEvaluatePost');
 

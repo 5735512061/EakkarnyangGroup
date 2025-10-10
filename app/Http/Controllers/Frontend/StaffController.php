@@ -231,7 +231,7 @@ class StaffController extends Controller
                                                            ->with('bonus',$bonus);
     }
 
-    public function providentFundInformation() {
+    public function providentFundInformation(Request $request) {
         $staff = Auth::guard('staff')->user();
         $funds = Fund::where('employee_id',$staff->id)->orderBy('id','asc')->get();  
 
@@ -248,6 +248,8 @@ class StaffController extends Controller
         $year_work = intval($diff/365);
         // จบ
 
+        $page = $request->input('page');
+        $page = ($page != null)?$page:1;
         return view('frontend/employee/provident-fund-information')->with('funds',$funds)
                                                                    ->with('staff',$staff)
                                                                    ->with('year_work',$year_work);
@@ -382,6 +384,27 @@ class StaffController extends Controller
         }
         return redirect()->action('Frontend\\StaffController@listEmployeeEvaluate');
     }
+
+//     public function listManagerEvaluate(Request $request) {
+//         $NUM_PAGE = 20;
+//         $branch_id = Auth::guard('staff')->user()->branch_id;   
+
+//         $managers = Employee::join('positions', 'employees.position_id', '=', 'positions.id')
+//                             ->select('employees.*', 'positions.position')   
+//                             ->where('branch_id',$branch_id)
+//                             ->where('positions.position','==','MANAGER')
+//                             ->where('employees.status','เปิด')
+//                             ->paginate($NUM_PAGE);
+// dd($managers);
+//         $dateNow = Carbon::now()->format('d/m/Y');
+//         $page = $request->input('page');
+//         $page = ($page != null)?$page:1;
+//         return view('frontend/manager/evaluate/list-manager')->with('NUM_PAGE',$NUM_PAGE)
+//                                                              ->with('page',$page)
+//                                                              ->with('managers',$managers)
+//                                                              ->with('branch_id',$branch_id)
+//                                                              ->with('dateNow',$dateNow);
+//     }
 
     public function formManagerEvaluate() {
         $employee = Auth::guard('staff')->user();

@@ -107,7 +107,7 @@
                                 <h4><i class='bx bxs-right-arrow'></i> ยางรถยนต์ลด 20% ทุกยี่ห้อ ทุกรุ่น ทุกขนาดในราคาปกติ</h4>
                                 <h4><i class='bx bxs-right-arrow'></i> NTP ทุกรายการ ลด 30% จากราคาปกติ <span>** ฟรีค่าแรง</span></h4>
                                 <h4><i class='bx bxs-right-arrow'></i> ร้านอาหารในเครือ EDO GROUP ลด 50% ทุกเมนู <span>** เฉพาะทานที่ร้านเท่านั้น</span></h4>
-                                <h4><i class='bx bxs-right-arrow'></i> FLAT WHITE CAFE' ลด 50% ทุกเมนู <span>** เฉพาะทานที่ร้านเท่านั้น</span></h4>
+                                <h4><i class='bx bxs-right-arrow'></i> BIGBOSS Work Green Brunch ลด 30% ทุกเมนู <span>** เฉพาะทานที่ร้านเท่านั้น</span></h4>
                                 <h4><i class='bx bxs-right-arrow'></i> OWL CHA ลด 50% ทุกเมนู <span>** เฉพาะที่สาขาโคกกลอยเท่านั้น</span></h4>
                                 <h4>เงื่อนไขการใช้สวัสดิการพนักงาน</h4><hr>
                                 <p><i class='bx bxs-right-arrow'></i> แสดงบัตรพนักงานออนไลน์ในระบบพนักงานเพื่อรับสิทธิ์ <span>** ห้ามบันทึกหน้าจอส่งให้บุคคลอื่น</span></p>

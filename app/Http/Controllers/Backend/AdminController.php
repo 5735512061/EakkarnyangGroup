@@ -26,6 +26,7 @@ use App\Model\CompanyRegulations;
 use App\Model\ListSop;
 use App\Model\TitleSop;
 use App\Model\CheckListSop;
+use App\Model\BenefitStaff;
 
 use App\Admin;
 use App\Employee;
@@ -1109,6 +1110,26 @@ class AdminController extends Controller
     public function tableListSOP() {
         $titles = ListSop::where('status',"เปิด")->groupBy('title_id')->get();
         return view('backend/admin/checklist/table-list-sop')->with('titles',$titles);
+    }
+
+    public function createBenefitStaff(Request $request) {
+        $benefit = $request->all();
+        $benefit = BenefitStaff::create($benefit);
+        if($request->hasFile('image')){
+            $benefit_staff_image = $request->file('image');
+            $filename = md5(($benefit_staff_image->getClientOriginalName(). time()) . time()) . "_o." . $benefit_staff_image->getClientOriginalExtension();
+            $benefit_staff_image->move('img_upload/benefit_staff_image/', $filename);
+            $path = 'file_upload/benefit_staff_image/'.$filename;
+            $benefit->image = $filename;
+            $benefit->save();
+        }
+        $request->session()->flash('alert-success', 'เพิ่มสวัสดิการพนักงานสำเร็จ');
+        return back();
+    }
+
+    // จัดการ benefit
+    public function manageBenefit() {
+        return view('backend/admin/manage-benefit');
     }
 
     // Validate

@@ -58,6 +58,9 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('/employee-use-benefit/{branch_id}','Backend\\AdminController@employeeUseBenefit');
     Route::get('/confirm-coupon/{benefit_id}','Backend\\AdminController@confirmCoupon');
 
+    Route::get('/manage-benefit','Backend\\AdminController@manageBenefit');
+    Route::post('/create-benefit-staff','Backend\\AdminController@createBenefitStaff'); 
+
     // จัดการข้อมูลการทำงาน
     Route::get('/show-employee-work-by-branch/{id}','Backend\\AdminController@showEmployeeWorkByBranch');
     Route::get('/employee-work-information/{id}','Backend\\AdminController@employeeWorkInformation');

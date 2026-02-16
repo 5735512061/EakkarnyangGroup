@@ -17,6 +17,7 @@ use App\Model\EmployeeBenefit;
 use App\Model\Evaluation;
 use App\Model\EvaluationManager;
 use App\Model\EmployeeRate;
+use App\Model\ManagerRate;
 use App\Model\Fund;
 use App\Model\Leave;
 use App\Model\LeaveApproval;
@@ -956,7 +957,10 @@ class AdminController extends Controller
 
     public function listManagerEvaluate(Request $request, $branch_id) {
         $NUM_PAGE = 50;
-        $managers = EvaluationManager::where('status','เปิด')->paginate($NUM_PAGE)  ;
+        $managers = Employee::join('positions','employees.position_id','=','positions.id')
+                            ->where('positions.position','=',"MANAGER")
+                            ->select('employees.*')->get();
+
         $dateNow = Carbon::now()->format('d/m/Y');
         $page = $request->input('page');
         $page = ($page != null)?$page:1;
@@ -965,6 +969,56 @@ class AdminController extends Controller
                                                                    ->with('managers',$managers)
                                                                    ->with('dateNow',$dateNow)
                                                                    ->with('branch_id',$branch_id);
+    }
+
+    public function evaluateManagerForMonth(Request $request, $id) {
+        $employee = Employee::findOrFail($id);
+        $months = ManagerRate::where('manager_id',$id)->groupBy('date')->orderBy('id','asc')->get();
+        $years = ManagerRate::select(DB::raw('YEAR(created_at) year'))
+                            ->where('manager_id',$id)
+                            ->groupby('year')
+                            ->orderBy('id','asc')
+                            ->get();
+        return view('backend/admin/evaluate/manager-evaluate-for-month')->with('employee',$employee)
+                                                                        ->with('months',$months)
+                                                                        ->with('years',$years)
+                                                                        ->with('id',$id);
+    }
+
+    public function evaluateManagerDetailByYear(Request $request, $id, $yearID) {
+        $employee = Employee::findOrFail($id);
+
+        $rates = ManagerRate::where('manager_id',$id)
+                             ->groupBy('created_at')
+                             ->selectRaw('*, sum(rate) as sum')
+                             ->orderBy('created_at','asc')
+                             ->get();
+                             
+        $year = ManagerRate::where('manager_id',$id)->value('date');
+        $year = strtr($year,'/','-');
+        $year = date('Y',strtotime($year));
+
+        return view('backend/admin/evaluate/manager-evaluate-detail')->with('employee',$employee)
+                                                                     ->with('rates',$rates)
+                                                                     ->with('year',$year)
+                                                                     ->with('yearID',$yearID);
+    }
+
+    public function evaluateManagerFormDetail(Request $request,$id,$date_d,$date_m,$date_y) {
+        $date = $date_d.'/'.$date_m.'/'.$date_y;
+        $rates = ManagerRate::where('manager_id',$id)
+                             ->where('date',$date)
+                             ->get();
+        $sumRates = ManagerRate::where('manager_id',$id)
+                                ->where('date',$date)
+                                ->selectRaw('*, sum(rate) as sum')
+                                ->orderBy('created_at','desc')
+                                ->get();
+            foreach($sumRates as $sumRate => $value) {
+                $sum = $value->sum;
+            }
+        return view('backend/admin/evaluate/manager-evaluate-form-detail')->with('rates',$rates)
+                                                                          ->with('sum',$sum);
     }
 
     // เกี่ยวกับข้อมูลข่าวสาร / ใบเตือน

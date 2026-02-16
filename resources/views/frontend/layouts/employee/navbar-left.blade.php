@@ -90,6 +90,14 @@
                     <div data-i18n="Account">ทำแบบประเมินพนักงาน</div>
                 </a>
             </li>
+        @elseif($position == 'Area Manager')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">การประเมินผล</span></li>
+            <li class="menu-item">
+                <a href="{{ url('/staff/list-manager-evaluate') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-news"></i>
+                    <div data-i18n="Account">ทำแบบประเมินผู้จัดการ</div>
+                </a>
+            </li>
         @endif
         <li class="menu-item">
             <a href="https://connect.tyreplus.co.th/dealer/E-learning/" class="menu-link" target="_blank"

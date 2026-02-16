@@ -385,36 +385,23 @@ class StaffController extends Controller
         return redirect()->action('Frontend\\StaffController@listEmployeeEvaluate');
     }
 
-//     public function listManagerEvaluate(Request $request) {
-//         $NUM_PAGE = 20;
-//         $branch_id = Auth::guard('staff')->user()->branch_id;   
+    public function listManagerEvaluate(Request $request) {
 
-//         $managers = Employee::join('positions', 'employees.position_id', '=', 'positions.id')
-//                             ->select('employees.*', 'positions.position')   
-//                             ->where('branch_id',$branch_id)
-//                             ->where('positions.position','==','MANAGER')
-//                             ->where('employees.status','เปิด')
-//                             ->paginate($NUM_PAGE);
-// dd($managers);
-//         $dateNow = Carbon::now()->format('d/m/Y');
-//         $page = $request->input('page');
-//         $page = ($page != null)?$page:1;
-//         return view('frontend/manager/evaluate/list-manager')->with('NUM_PAGE',$NUM_PAGE)
-//                                                              ->with('page',$page)
-//                                                              ->with('managers',$managers)
-//                                                              ->with('branch_id',$branch_id)
-//                                                              ->with('dateNow',$dateNow);
-//     }
+        $managers = Employee::join('positions','employees.position_id','=','positions.id')
+                            ->where('positions.position','=',"MANAGER")
+                            ->select('employees.*')->get();
 
-    public function formManagerEvaluate() {
-        $employee = Auth::guard('staff')->user();
-        $position_id = Position::where('branch_group_id',$employee->branch_id)->where('position',"MANAGER")->value('id');
-        $employees = Employee::where('position_id','=',$position_id)
-                             ->where('branch_id','=',$employee->branch_id)->get();
+        $dateNow = Carbon::now()->format('d/m/Y');
+        return view('frontend/manager/evaluate/list-manager')->with('managers',$managers)
+                                                             ->with('dateNow',$dateNow);
+    }
+
+    public function formManagerEvaluate($id) {
+        $employees = Employee::where('id','=',$id)->get();
         $dateM = Carbon::now()->format('m');
         $dateNow = Carbon::now()->format('d/m/Y');
         $evaluations = EvaluationManager::where('status',"เปิด")->get();
-        return view('frontend/employee/evaluate/form-manager-evaluate')->with('employees',$employees)
+        return view('frontend/manager/evaluate/form-manager-evaluate')->with('employees',$employees)
                                                                        ->with('dateM',$dateM)
                                                                        ->with('dateNow',$dateNow)
                                                                        ->with('evaluations',$evaluations);
@@ -442,7 +429,7 @@ class StaffController extends Controller
             $rate_data->comment = $comment;
             $rate_data->save();
         }
-        return redirect()->action('Frontend\\StaffController@dashboard');
+        return redirect()->action('Frontend\\StaffController@listManagerEvaluate');
     }
 
     public function Elearning(Request $request) {

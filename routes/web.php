@@ -103,6 +103,10 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('/create-form-manager-evaluate','Backend\\AdminController@createFormManagerEvaluate');
     Route::post('/edit-form-manager-evaluate','Backend\\AdminController@editFormManagerEvaluate');
     Route::get('/list-manager-evaluate/{branch_id}','Backend\\AdminController@listManagerEvaluate');
+    Route::get('/evaluate-manager-detail/{id}/{year}','Backend\\AdminController@evaluateManagerDetailByYear');
+    Route::get('/evaluate-manager-form-detail/{id}/{date_d?}/{date_m?}/{date_y?}','Backend\\AdminController@evaluateManagerFormDetail');
+
+    Route::get('/evaluate-manager-for-month/{id}','Backend\\AdminController@evaluateManagerForMonth');
 
     // เกี่ยวกับข้อมูลข่าวสาร / ใบเตือน
     Route::get('/create-news','Backend\\AdminController@createNews');
@@ -148,8 +152,8 @@ Route::group(['prefix' => 'staff'], function(){
     Route::post('/from-employee-evaluate','Frontend\\StaffController@formEmployeeEvaluatePost');
 
     // แบบประเมินผู้จัดการ
-    // Route::get('/list-manager-evaluate','Frontend\\StaffController@listManagerEvaluate');
-    Route::get('/form-manager-evaluate','Frontend\\StaffController@formManagerEvaluate');
+    Route::get('/list-manager-evaluate','Frontend\\StaffController@listManagerEvaluate');
+    Route::get('/form-manager-evaluate/{id}','Frontend\\StaffController@formManagerEvaluate');
     Route::post('/from-manager-evaluate','Frontend\\StaffController@formManagerEvaluatePost');
 
     // การเข้าเว็บ E-learning

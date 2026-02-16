@@ -64,20 +64,20 @@
                                         @endphp
                                         @if ($date_mY === $date_mYN)
                                             <td>
-                                                <a style="color:green;">
+                                                <a class="btn btn-success text-white">
                                                     <i class="fa fa-check"></i> ประเมินเรียบร้อย
                                                 </a>
                                             </td>
                                         @elseif($date_mY !== $date_mYN)
                                             <td>
-                                                <a style="color:#525F7F;"
+                                                <a class="btn btn-danger text-white" style="color:#525F7F;"
                                                     href="{{ url('/staff/form-manager-evaluate/') }}/{{ $value->id }}">
                                                     <i class="ni ni-chart-bar-32 text-primary"></i> ประเมินผู้จัดการ
                                                 </a>
                                             </td>
                                         @elseif($date_mY == null || $date_mYN == null)
                                             <td>
-                                                <a style="color:#525F7F;"
+                                                <a class="btn btn-danger text-white" style="color:#525F7F;"
                                                     href="{{ url('/staff/form-manager-evaluate/') }}/{{ $value->id }}">
                                                     <i class="ni ni-chart-bar-32 text-primary"></i> ประเมินผู้จัดการ
                                                 </a>

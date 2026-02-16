@@ -171,6 +171,7 @@
                                     @endforeach
                                 </table>
                                 <br>
+                                <textarea name="comment" cols="10" rows="5" class="form-control" placeholder="ความคิดเห็นเพิ่มเติม"></textarea><br><br>
                                 <button class="btn btn-info"
                                     style="font-family:Sarabun; padding-right:10px; padding-left:10px;">ส่งแบบประเมิน</button>
                             </div>

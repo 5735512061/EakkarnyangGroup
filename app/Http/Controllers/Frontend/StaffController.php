@@ -389,6 +389,7 @@ class StaffController extends Controller
 
         $managers = Employee::join('positions','employees.position_id','=','positions.id')
                             ->where('positions.position','=',"MANAGER")
+                            ->where('employees.status','=',"เปิด")
                             ->select('employees.*')->get();
 
         $dateNow = Carbon::now()->format('d/m/Y');

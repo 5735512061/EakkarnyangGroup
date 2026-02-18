@@ -93,15 +93,10 @@
             <div class="col-md-4">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h4 class="text-center">พนักงานขายดีเด่นประจำเดือนมกราคม</h4>
-                        <center><img src="{{ url('image/employee-profile/profile-1.png') }}" alt="profile"
-                                width="50%" /></center>
-                        <h6 class="text-center mt-3">นางสาว ชานัดดา รักพร (ปอ)</h6>
-                        <h6 class="text-center">ตำแหน่ง : Service Advisor สาขาไทวัสดุ</h6><hr>
-                        <center><img src="{{ url('image/employee-profile/profile-2.jpg') }}" alt="profile"
-                                width="50%" /></center>
-                        <h6 class="text-center mt-3">นาย อธิวัฒน์ หอมหวล (อามัน)</h6>
-                        <h6 class="text-center">ตำแหน่ง : Technician สาขาถลาง</h6>
+                        @foreach ($best_employees as $best_employee => $value)
+                            <img src="{{ url('img_upload/best-employee') }}/{{ $value->image }}" alt="profile"
+                                width="100%" class="mb-5"/>
+                        @endforeach
                     </div>
                 </div>
             </div>

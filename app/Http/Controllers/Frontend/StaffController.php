@@ -24,6 +24,7 @@ use App\Model\ElearningStatistic;
 use App\Model\CompanyRegulations;
 use App\Model\ListSop;
 use App\Model\CheckListSop;
+use App\Model\BestEmployee;
 
 use Response;
 
@@ -67,13 +68,18 @@ class StaffController extends Controller
                 $bonus = 0;
             }
 
+        $best_employees = BestEmployee::whereMonth('created_at', date('m'))
+                                      ->whereYear('created_at', date('Y'))
+                                      ->get();
+
         return view('frontend/employee/dashboard')->with('staff',$staff)
                                                   ->with('absence',$absence)
                                                   ->with('late',$late)
                                                   ->with('lateBalance',$lateBalance)
                                                   ->with('absenceTotal',$absenceTotal)
                                                   ->with('absenceBalance',$absenceBalance)
-                                                  ->with('bonus',$bonus);
+                                                  ->with('bonus',$bonus)
+                                                  ->with('best_employees',$best_employees);
     }
 
     public function profile(Request $request) {

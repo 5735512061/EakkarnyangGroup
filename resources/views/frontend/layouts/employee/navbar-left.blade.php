@@ -90,7 +90,7 @@
                     <div data-i18n="Account">ทำแบบประเมินพนักงาน</div>
                 </a>
             </li>
-        @elseif($position == 'Area Manager')
+        @elseif($position == 'Operations Manager')
             <li class="menu-header small text-uppercase"><span class="menu-header-text">การประเมินผล</span></li>
             <li class="menu-item">
                 <a href="{{ url('/staff/list-manager-evaluate') }}" class="menu-link">

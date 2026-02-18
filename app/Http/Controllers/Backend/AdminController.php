@@ -28,6 +28,7 @@ use App\Model\ListSop;
 use App\Model\TitleSop;
 use App\Model\CheckListSop;
 use App\Model\BenefitStaff;
+use App\Model\BestEmployee;
 
 use App\Admin;
 use App\Employee;
@@ -959,6 +960,7 @@ class AdminController extends Controller
         $NUM_PAGE = 50;
         $managers = Employee::join('positions','employees.position_id','=','positions.id')
                             ->where('positions.position','=',"MANAGER")
+                            ->where('employees.status','=',"เปิด")
                             ->select('employees.*')->get();
 
         $dateNow = Carbon::now()->format('d/m/Y');
@@ -1184,6 +1186,34 @@ class AdminController extends Controller
     // จัดการ benefit
     public function manageBenefit() {
         return view('backend/admin/manage-benefit');
+    }
+
+    // พนักงานดีเด่น
+    public function bestEmployee(Request $request) {
+        $NUM_PAGE = 24;
+        $employees = Employee::get();
+        $best_employees = BestEmployee::orderBy('created_at','desc')->paginate($NUM_PAGE);
+        $page = $request->input('page');
+        $page = ($page != null)?$page:1;
+        return view('backend/admin/best-employee')->with('employees',$employees)
+                                                  ->with('best_employees',$best_employees)
+                                                  ->with('NUM_PAGE',$NUM_PAGE)
+                                                  ->with('page',$page);
+    }
+
+    public function createBestEmployee(Request $request) {
+        $best_employee = $request->all();
+        $best_employee = BestEmployee::create($best_employee);
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $filename = md5(($image->getClientOriginalName(). time()) . time()) . "_o." . $image->getClientOriginalExtension();
+            $image->move('img_upload/best-employee', $filename);
+            $path = 'img_upload/best-employee/'.$filename;
+            $best_employee->image = $filename;
+            $best_employee->save();
+        } 
+        $request->session()->flash('alert-success', 'อัพโหลดพนักงานดีเด่นสำเร็จ');
+        return redirect()->action('Backend\\AdminController@bestEmployee'); 
     }
 
     // Validate

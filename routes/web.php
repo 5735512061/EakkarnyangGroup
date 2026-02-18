@@ -26,6 +26,8 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('/company-regulations','Backend\\AdminController@companyRegulations'); //กฎระเบียบบริษัท ฯ
     Route::post('/create-company-regulations','Backend\\AdminController@companyRegulationsPost'); //กฎระเบียบบริษัท ฯ
     Route::get('/preview-file-company-regulations/{id}','Backend\\AdminController@previewFileCompanyRegulatios'); //preview file PDF
+    Route::get('/best-employee','Backend\\AdminController@bestEmployee');
+    Route::post('/create-best-employee','Backend\\AdminController@createBestEmployee');
 
     // จัดการข้อมูลพนักงาน
     Route::get('/form-create-employee/{id}','Backend\\AdminController@formCreateEmployee'); //ฟอร์มเพิ่มพนักงานในระบบ

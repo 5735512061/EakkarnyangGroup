@@ -17,6 +17,7 @@
                                     <th>#</th>
                                     <th>ชื่อ-นามสกุล</th>
                                     <th>ชื่อเล่น</th>
+                                    <th>สาขา</th>
                                     <th>ผลการประเมิน</th>
                                     <th></th>
                                     <th>คะแนนการประเมินล่าสุด</th>
@@ -33,12 +34,16 @@
                                         ->selectRaw('*, sum(rate) as sum')
                                         ->orderBy('created_at', 'desc')
                                         ->first();
+                                    $branch = DB::table('branch_groups')
+                                        ->where('id', $value->branch_id)
+                                        ->value('branch');
                                 @endphp
                                 <tbody class="table-border-bottom-0">
                                     <tr>
                                         <td>{{ $NUM_PAGE * ($page - 1) + $manager + 1 }}</td>
                                         <td>{{ $value->name }} {{ $value->surname }}</td>
                                         <td>{{ $value->nickname }}</td>
+                                        <td>{{ $branch }}</td>
                                         <td>
                                             <a href="{{ url('admin/evaluate-manager-for-month') }}/{{ $value->id }}"><i
                                                     class='bx bxs-bar-chart-alt-2'></i> ตรวจสอบผลการประเมิน</a>
